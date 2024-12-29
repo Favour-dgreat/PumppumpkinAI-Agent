@@ -1,0 +1,164 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  padding-bottom: 10%;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba(23, 23, 23, 1);
+  padding-bottom: 30px;
+
+}
+
+.nav-links {
+  margin-top: 60px;
+  flex: 1;
+  width: 100%;
+}
+
+.nav-item {
+  display: block;
+  padding: 1rem;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+#active {
+  background-color: #1a75ff;
+  font-weight: bold;
+}
+#active:hover{
+  text-decoration: none;
+}
+.nav-item:hover {
+  text-decoration: underline;
+
+}
+
+.logout {
+  margin-top: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.header {
+  gap: 220px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.card-info{
+  color: white;
+  padding-left: 10px;
+}
+
+.user-info {
+  width: 20%;
+  font-size: 1rem;
+  color: white;
+}
+
+.card {
+  background-color: #1a75ff;
+  padding: 0.7rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 40%;
+}
+
+
+.card h4 {
+  margin: 0;
+  font-weight: 100;
+}
+
+.card p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.icon-wallet {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+/* User Info Section */
+
+.user-info{
+  display: flex;
+  gap: 10px;
+}
+.user-info-section {
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: white;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-bar {
+  color: white;
+  padding: 0.7rem;
+  width: 30%;
+  border: 1px solid rgba(23, 23, 23, 1);
+  background: rgba(23, 23, 23, 1);
+}
+
+.search-bar::placeholder {
+  color: white;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  
+}
+
+.user-table th,
+.user-table td {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+
+
+.view-all-btn {
+  margin-top: 30px;
+  background-color: #1a75ff;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.view-all-btn:hover {
+  background-color: #155ab3;
+}
