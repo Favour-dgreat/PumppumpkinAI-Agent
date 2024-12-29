@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Buffer } from "buffer";
 import { auth } from '../../firebase.config'; 
 import { TwitterAuthProvider, signInWithPopup} from 'firebase/auth';
@@ -332,6 +332,13 @@ const handleTransaction = async () => {
       },
     }),
   };
+
+  useEffect(() => {
+    if (isSuccessModalVisible) {
+      closePopup(); // Close the first popup when transitioning to the next
+    }
+  }, [isSuccessModalVisible]);
+
   return (
        <div className="container">
          {/* Popup */}
@@ -413,7 +420,7 @@ const handleTransaction = async () => {
                 </button>
               </div>
               <div className="popup-content">
-              <img src={logo} alt="Logo" className="logosf" />
+              <img src={logo} alt="Logo" className="logos" />
 
                 <p className='ii'> Your AI Agent  account Is now Verified With X  </p>
                 <img src={photoURL} alt="Logo" className="logos" />
@@ -503,7 +510,7 @@ const handleTransaction = async () => {
             </header>
             <div className="actionss">
               <button className="action-btn" onClick={openDepositModal}>
-              <i className="bi bi-wallet2" style={{fontWeight: 900}}></i> {walletAddress ? (depositedAmount ? `${depositedAmount} SOL` : '00.00') : '00.00'}
+              <img src={wallet} style={{width:'18px'}}></img> {walletAddress ? (depositedAmount ? `${depositedAmount} SOL` : '00.00') : '00.00'}
               </button>
               <div className="wallet-container">
               {walletAddress ? (
@@ -543,7 +550,7 @@ const handleTransaction = async () => {
               <div className="form-column">
                 <div className="form-group">
                 <label>Character Name</label>
-                <input type="text" placeholder="Select Character Name" />
+                <input type="text" placeholder="Give your AI a Name" />
                 </div>
               </div>
               
