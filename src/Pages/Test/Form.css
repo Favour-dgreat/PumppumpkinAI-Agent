@@ -1,0 +1,725 @@
+.container {
+    padding: 20px;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+  }
+  
+  .header {
+    display: inline;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  
+  
+  .header h1 {
+    color: #00aaff;
+  }
+  
+  .hamburger-menu {
+    display: none;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+  }
+  .mobile-users {
+    display: none;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+  .actions .action-btn {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .action-btn {
+    background-color:rgba(230, 230, 230, 1);
+    font-weight: 900;
+    color: black;
+    font-size: 18px;
+    line-height: 20px;
+  }
+  
+  .actionss {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .actionss .action-btn {
+    padding: 10px 20px;
+    border: none;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  
+  .action-btn.connect {
+    background-color: rgba(26, 117, 255, 1);
+    color: #fff;
+  }
+  .heading {
+    display: flex;
+    align-items: center;
+    color: white;
+    padding-left: 20px;
+    border-bottom: 2px solid #007bff; 
+  }
+  #i{
+    font-size: 30px;
+    font-weight: 200;
+  }
+  h4{
+    font-size: 20px;
+  }
+  .heading i {
+    margin-right: 10px; /* Adjust the spacing as needed */
+  }
+  .section {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    background-color: rgba(23, 37, 58, 1);
+    border-radius: 10px;
+    border: 1px solid rgba(26, 117, 255, 1);
+  }
+  select{
+    background-color: transparent;
+  }
+  .form-container {
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .form-column {
+    flex: 1;
+    margin-right: 15px;
+  }
+  
+  .form-column:last-child {
+    margin-right: 0; /* Remove margin from the last column */
+  }
+  
+  .form-group {
+    margin-bottom: 15px; /* Adjust spacing between form groups as needed */
+    font-family: Montserrat Alternates;
+  font-size: 14px;
+  font-weight: 400;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  
+  }
+  .logos{
+    width: 180px;
+  }
+  
+  .logo{
+    width: 180px;
+  }
+  .form-group label {
+    display: block;
+    margin-bottom: 5px; /* Adjust spacing between label and input/select as needed */
+    text-align: left;
+    font-family: Montserrat Alternates;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    
+  }
+  
+  .form-group input, 
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border-radius: 5px;
+    color: #fff;
+  }
+  
+  section input,
+  section  {
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid rgba(26, 117, 255, 1);
+    border-radius: 5px;
+    color: #fff;
+  }
+  
+  .people-grids{
+   gap: 20px;
+    display: inline-block;
+  }
+  
+  
+  .form-group input,
+  select{
+    display: flex;
+    width: 100%; /* Make the select and buttons container full width */
+    border: 1px solid rgba(26, 117, 255, 1);
+    background-color: transparent;
+    color: white;
+  }
+  .form-group input::placeholder{
+    color: white;
+  }
+  .form-group .buttons {
+    display: flex;
+    width: 100%; /* Make the select and buttons container full width */
+    margin-top: 5px; /* Adjust spacing between label and buttons as needed */
+    padding: 0; /* Remove any padding */
+  
+  }
+  
+  
+  .client-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid rgba(26, 117, 255, 1);
+    cursor: pointer;
+    margin-right: 10px; /* Adjust spacing between buttons as needed */
+    width: 100%; /* Make buttons full width */
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+  }
+  .section-container {
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  
+   .details-grid label{
+    display: block;
+    text-align: left;
+    font-family: Montserrat Alternates;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+   }
+  
+  .section {
+    flex: 1;
+    margin-right: 10px; /* Adjust spacing between sections as needed */
+  }
+  
+  .section:last-child {
+    margin-right: 0; /* Remove margin from the last section */
+  }
+  
+  textarea{
+    height: 80px; /* Set the desired height for the textarea */
+    width: 100%; /* Ensure the textarea takes the full width of its container */
+    padding: 10px; /* Add padding for better readability */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    background-color: transparent;
+    border: 1px solid rgba(26, 117, 255, 1);
+    border-radius: 5px;
+    color: white;
+  
+  
+  }
+  .details-grid {
+    padding: 20px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 2fr));
+  }
+  
+  .adj-people {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .adj-people h3 {
+    margin-bottom: 10px;
+  }
+  
+  .adj-people input {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #fff;
+  }
+  
+  .input-container {
+    position: relative; /* Ensure child elements can use absolute positioning */
+    width: 100%; /* Adjust as per your layout */
+    max-width: 400px; /* Optional: Set a maximum width */
+    margin: 1rem 0;
+  }
+  
+  .input-container input {
+    width: 100%; /* Make the input take full width of the container */
+    padding: 0.5rem 2.5rem 0.5rem 0.5rem; /* Add space on the right for the icon */
+    background-color: rgba(27, 42, 66, 1);
+    color: white;
+    border: 1px solid rgba(26, 117, 255, 1);
+    border-radius: 4px; /* Optional: Rounded corners */
+    font-size: 1rem; /* Adjust font size */
+  }
+  
+  .input-container i {
+    position: absolute; /* Position relative to the container */
+    right: 10px; /* Position the icon inside the input field on the right */
+    top: 50%; /* Vertically center the icon */
+    transform: translateY(-50%); /* Correct vertical alignment */
+    color: rgba(26, 117, 255, 1); /* Icon color */
+    cursor: pointer; /* Make the icon clickable */
+  }
+  
+  .deploy {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+  }
+  
+  .deploy-btn { 
+    width : 100%;
+    padding: 15px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer;
+    font-family: Montserrat Alternates;
+    font-size: 18px;
+    font-weight: 700;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    }
+  /* Popup Overlay */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup {
+    background: rgba(27, 42, 66, 1);
+    padding: 20px;
+    width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    color: #fff;
+  }
+  
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .popup-actions{
+    flex-direction: column;
+  }
+  .popup-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #1a75ff;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .close-btns {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .popup-header{
+    display: block;
+   text-align: left;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+  
+  p {
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: left;
+  }
+  
+  .max-text {
+    color: #d4d4d8;
+    cursor: pointer;
+  }
+  
+  /* Input Styles */
+  .input-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .input-container input {
+    width: calc(100% - 50px);
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #3d3d56;
+    border-radius: 8px;
+    background-color: #1c2230;
+    color: #ffffff;
+    outline: none;
+  }
+  
+  .input-container .input-addon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #1c2230;
+    border-left: 1px solid #3d3d56;
+    border-radius: 0 8px 8px 0;
+    padding: 0 10px;
+  }
+  
+  .input-container .input-addon span {
+    margin-right: 5px;
+  }
+  
+  .input-container img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Button Styles */
+  .add-button {
+    background-color: #0078ff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 100%;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-button:hover {
+    background-color: #005bb5;
+  }
+  
+  /* Responsive Modal */
+  @media (max-width: 480px) {
+    .modal-content {
+      width: 90%;
+    }
+  }
+  
+  .user-details {
+    margin: 20px 0;
+  }
+  
+  .user-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .user-name {
+    font-weight: bold;
+  }
+  
+  .user-handle {
+    color: #aaa;
+  }
+  
+  .authorize-btn {
+    background: #1a75ff;
+    border: none;
+    display: block;
+    width: 100%;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+  }
+  
+  .ii{
+    font-family: Montserrat Alternates;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 26.82px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: white;
+  
+  
+  }
+  .cancel-btn {
+    background: transparent;
+    border: 1px solid #aaa;
+    color: #aaa;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between; /* Ensures space between logo and hamburger */
+    padding: 10px 20px; /* Adjust spacing as needed */
+    border-bottom: 1px solid rgba(79, 79, 79, 1);
+  }
+  
+  .logo {
+    height: auto;
+  }
+  
+  .hamburger-menu {
+    font-size: 24px; /* Adjust font size for the hamburger icon */
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .mobile-users {
+    display: none;
+  }
+  
+  .wallet-dropdown, 
+  .wallet-button{
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .wallet-dropdown-menu,
+  .dropdown-item{
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .hamburger-menu {
+      display: flex;
+    }
+  
+    .mobile-users {
+      display: block;
+      margin-top: 10px;
+    }
+  
+    .logo {
+      display: inline-block;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .mobile-uses {
+      display: none;
+    }
+  
+    #dropdown{
+      width: 100%;
+    }
+    .logoc  {
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  
+  .actionss{
+    display: none;
+  }
+  }
+  
+  
+  /* Responsive styling for mobile */
+  @media (max-width: 768px) {
+    .container {
+      padding: 20px;
+    }
+    .action-btn{
+      width: 100%;
+    }
+    .wallet-button{
+      width: 100;
+    }
+    .main{
+      padding: 15px;
+    }
+    .mobile-uses{
+      width: 100px;
+    }
+    .hamburger-menu {
+      display: block;
+    }
+  
+    .mobile-users {
+      display: block;
+      margin-top: 10px;
+    }
+    .header {
+      display: flex;
+      flex-direction: row;
+    }
+  
+    .header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .actions {
+      display: none;
+    }
+    .action-btn {
+      width: 100%;
+      margin-right: 0;
+      
+    }
+  
+    .section {
+      margin-bottom: 15px;
+    }
+  
+    .form-container {
+      flex-direction: column;
+     
+    }
+  
+    .section {
+      flex: 1;
+      margin-right: 0px; /* Adjust spacing between sections as needed */
+      padding: 10px;
+      width: 100%;
+    }
+  
+    .form-column {
+      margin-left: 0;
+      margin-right: 0;
+      padding: 0;
+    }
+    .client-btn {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 10px;
+  
+    }
+    .buttons {
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .section-container {
+      display: block;
+      justify-content: space-between; 
+    }
+  
+    .form-group input{
+      display: block;
+      width: 93%; /* Make the select and buttons container full width */
+      border: 1px solid rgba(26, 117, 255, 1);
+      background-color: transparent;
+    }
+  .actionss{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+  }
+    
+    .details-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+  
+    textarea {
+      height: 100px;
+    }
+  
+    .adj-people {
+      flex-direction: column;
+    }
+  
+    .deploy-btn {
+      padding: 10px 15px;
+      font-size: 16px;
+    }
+    .logos{
+      display: none;
+    }
+    .footer-container {
+      text-align: center;
+    }
+  
+    .footer-header {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .footer-social-buttons {
+      margin-top: 10px;
+    }
+  }
+  
+  /* New styles for input icon */
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-wrapper input {
+    width: 100%;
+    padding-right: 40px; /* Add padding to the right to make space for the icon */
+  }
+  
+  .input-icon {
+    position: absolute;
+    right: 10px; /* Adjust as needed */
+    display: flex;
+    align-items: center;
+  }
+  

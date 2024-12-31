@@ -1,8 +1,5 @@
 .container {
   padding: 20px;
-  justify-content: center;
-  text-align: center;
-  margin: 0 auto;
 }
 
 .header {
@@ -57,6 +54,7 @@
 }
 .actionss .action-btn {
   padding: 10px 20px;
+  margin-left: 10px;
   border: none;
   font-weight: 600;
   border-radius: 5px;
@@ -85,8 +83,7 @@ h4{
 .heading i {
   margin-right: 10px; /* Adjust the spacing as needed */
 }
-.section {
-  margin-top: 10px;
+.main .section {
   margin-bottom: 20px;
   padding-bottom: 10px;
   background-color: rgba(23, 37, 58, 1);
@@ -100,12 +97,13 @@ select{
   padding-top: 20px;
   display: flex;
   justify-content: space-between;
-  width: 100%;
 }
 
 .form-column {
   flex: 1;
-  margin-right: 65px;
+  margin-right: 10px; /* Adjust spacing between columns as needed */
+  margin-left: 30px;
+  padding: 5px;
 }
 
 .form-column:last-child {
@@ -143,17 +141,18 @@ text-decoration-skip-ink: none;
 }
 
 .form-group input, 
-.form-group select,
 .form-group textarea {
   width: 100%;
   padding: 10px;
   background-color: transparent;
+  border: 1px solid #444;
   border-radius: 5px;
   color: #fff;
 }
 
 section input,
-section  {
+section select {
+  width: 90%;
   padding: 10px;
   background-color: transparent;
   border: 1px solid rgba(26, 117, 255, 1);
@@ -167,10 +166,9 @@ section  {
 }
 
 
-.form-group input,
-select{
+.form-group input{
   display: flex;
-  width: 100%; /* Make the select and buttons container full width */
+  width: 80%; /* Make the select and buttons container full width */
   border: 1px solid rgba(26, 117, 255, 1);
   background-color: transparent;
   color: white;
@@ -269,12 +267,12 @@ textarea{
   width: 100%; /* Adjust as per your layout */
   max-width: 400px; /* Optional: Set a maximum width */
   margin: 1rem 0;
-  background-color: transparent;
 }
 
 .input-container input {
   width: 100%; /* Make the input take full width of the container */
   padding: 0.5rem 2.5rem 0.5rem 0.5rem; /* Add space on the right for the icon */
+  background-color: rgba(27, 42, 66, 1);
   color: white;
   border: 1px solid rgba(26, 117, 255, 1);
   border-radius: 4px; /* Optional: Rounded corners */
@@ -388,7 +386,6 @@ p {
 .input-container {
   position: relative;
   margin-bottom: 20px;
-  background-color: transparent;
 }
 
 .input-container input {
@@ -562,10 +559,6 @@ p {
   .mobile-uses {
     display: none;
   }
-
-  #dropdown{
-    width: 100%;
-  }
   .logoc  {
   display: flex;
   justify-content: space-between;
@@ -581,16 +574,7 @@ p {
 /* Responsive styling for mobile */
 @media (max-width: 768px) {
   .container {
-    padding: 20px;
-  }
-  .action-btn{
-    width: 100%;
-  }
-  .wallet-button{
-    width: 100;
-  }
-  .main{
-    padding:10px;
+    padding: 10px;
   }
   .mobile-uses{
     width: 100px;
@@ -621,19 +605,19 @@ p {
     
   }
 
-  .section {
+  .main .section {
     margin-bottom: 15px;
   }
 
   .form-container {
     flex-direction: column;
-   
   }
 
   .section {
     flex: 1;
-    margin-right: 0px;
-    width: 95%;
+    margin-right: 0px; /* Adjust spacing between sections as needed */
+    padding: 10px;
+    width: 100%;
   }
 
   .form-column {
@@ -652,6 +636,7 @@ p {
     width: 100%;
   }
 
+
   .section-container {
     display: block;
     justify-content: space-between; 
@@ -659,19 +644,11 @@ p {
 
   .form-group input{
     display: block;
-    width: 93%; /* Make the select and buttons container full width */
+    width: 95%; /* Make the select and buttons container full width */
     border: 1px solid rgba(26, 117, 255, 1);
     background-color: transparent;
   }
 
-
-.actionss{
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  text-align: center;
-  justify-content: center;
-}
   
   .details-grid {
     grid-template-columns: 1fr;
@@ -680,7 +657,6 @@ p {
 
   textarea {
     height: 100px;
-    background-color: transparent;
   }
 
   .adj-people {
@@ -708,4 +684,21 @@ p {
   }
 }
 
+/* New styles for input icon */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
+.input-wrapper input {
+  width: 100%;
+  padding-right: 40px; /* Add padding to the right to make space for the icon */
+}
+
+.input-icon {
+  position: absolute;
+  right: 10px; /* Adjust as needed */
+  display: flex;
+  align-items: center;
+}
