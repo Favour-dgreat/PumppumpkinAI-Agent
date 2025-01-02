@@ -307,7 +307,7 @@ const connectWallet = async () => {
       await setDoc(userDocRef, {
         walletAddress,
         createdAt: new Date(),
-        email: user.email || "",
+       
         name: user.displayName || "Unknown",
       });
       console.log("User document created with wallet address:", walletAddress);

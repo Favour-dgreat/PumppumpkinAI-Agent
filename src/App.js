@@ -6,6 +6,7 @@ import Agent from './Pages/Agent/Agent.js'; // Assuming you have an AuthPage com
 import Footer from './Pages/Footer/Footer.js';
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard.js';
 import CharacterCreation from './Pages/Agent/CharacterCreation.js';
+import Loading from './Pages/Agent/Callback.js';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/agent" element={<Agent />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/test" element={<CharacterCreation />} />
+          <Route path="/agent/auth/callback" element={<Loading />} />
 
 
           {/* Add more routes here as needed */}

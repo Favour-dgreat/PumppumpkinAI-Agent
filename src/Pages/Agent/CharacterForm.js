@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db} from '../../firebase.config'; 
 import { collection, doc, setDoc, updateDoc, getFirestore } from 'firebase/firestore';
-import { TwitterAuthProvider, signInWithPopup } from 'firebase/auth';
+import { TwitterAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
+import { getDatabase, ref, get } from "firebase/database";
 import logo from "../../Assets/Images/logo.png"; // Adjust the path to your logo file
 import tg from '../../Assets/Images/Rectangle.png';
 
@@ -35,49 +36,26 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
     }
   };
   
- 
-  
 
-  const handleTwitterLogin = async () => {
-    const provider = new TwitterAuthProvider(); // Declare provider once
-  
+
+  const handleTwitterAuth = async () => {
     try {
-      // Authenticate user with Twitter
-      const result = await signInWithPopup(auth, provider);
+      const response = await fetch('https://pumpkinai.icademics.com/auth/login', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
   
-      // Extract user info from result
-      const { uid, displayName, email, photoURL } = result.user;
+      if (!response.ok) {
+        throw new Error('Failed to initialise Twitter Login');
+      }
   
-      // Generate a UUID for additional internal use (if needed)
-      const userUUID = uuidv4();
-  
-      // Create or update user document in Firestore
-      const userDocRef = doc(db, "users", uid);
-      await setDoc(userDocRef, {
-        uuid: userUUID, // Custom UUID for internal use
-        twitterId: uid, // Twitter UID
-        name: displayName,
-        email,
-        photoURL,
-        createdAt: new Date(),
-      });
-  
-      // Update state with user info
-      setUserUUID(userUUID);
-      setUser(result.user);
-      setPhotoURL(photoURL);
-  
-      console.log("User authenticated and saved:", {
-        uuid: userUUID,
-        uid,
-        name: displayName,
-        email,
-      });
-  
-      // Display success modal
-      setIsSuccessModalVisible(true);
-  
-      return userUUID; // Return for further use if needed
+      const result = await response.json();
+      const auth_url = result.data.auth_url
+      window.location.href = auth_url; // Redirects to Twitter for Authorization
+     
     } catch (error) {
       console.error("Twitter login failed:", error.message);
       setError("Twitter login failed. Please try again.");
@@ -90,6 +68,12 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
     
     e.preventDefault();
     setIsDropdownVisible(true);
+    setDeployTime(true)
+    const deployTimestamp = Date.now();
+    setDeployTime(deployTimestamp);
+
+    // Save deploy timestamp to local storage or state for simplicity
+    localStorage.setItem("deployTimestamp", deployTimestamp);
 
     try {
       const characterID = userUUID || `character-${Date.now()}`;
@@ -132,7 +116,9 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
     const [photoURL, setPhotoURL] = useState(null);
     const [transactionStatus, setTransactionStatus] = useState('');
     const [amount, setAmount] = useState(''); // Add this line to define the amount state
-  
+    const [showModal, setShowModal] = useState(false);
+    const [deployTime, setDeployTime] = useState(null); // To track deploy time
+
    
     
     const toggleMenu = () => {
@@ -157,7 +143,9 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
     };
 
   
-  
+  const openModal = () => {
+    setShowModal(true);
+  };
     const openTokenPopup = () => {
       setIsTokenPopupVisible(true);
     };
@@ -189,10 +177,54 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
     
   
     useEffect(() => {
+      // Existing logic: Close the first popup if isSuccessModalVisible changes
       if (isSuccessModalVisible) {
         closePopup(); // Close the first popup when transitioning to the next
       }
+      const auth = getAuth();
+      if (!auth.currentUser) {
+        console.error("User is not authenticated!");
+        return;
+      }
+      console.log("Authenticated user ID:", auth.currentUser.uid);
+      // New logic: Check Firebase for `amountUserhasPaid` and time condition
+      const checkConditions = async () => {
+        const deployTimestamp = localStorage.getItem("deployTimestamp");
+        if (!deployTimestamp) return;
+      
+        const currentTime = Date.now();
+        const timeElapsed = (currentTime - deployTimestamp) / (1000 * 60); // Convert to minutes
+      
+        if (timeElapsed >= 2) {
+          const db = getDatabase();
+          const auth = getAuth();
+          const userId = auth.currentUser?.uid;
+      
+          if (!userId) {
+            console.error("User is not authenticated!");
+            return;
+          }
+      
+          const amountRef = ref(db, `Users/${userId}/amountUserhasPaid`);
+      
+          try {
+            const snapshot = await get(amountRef);
+            if (!snapshot.exists() || !snapshot.val()) {
+              setShowModal(true);
+            }
+          } catch (error) {
+            console.error("Error checking Firebase:", error);
+          }
+        }
+      };
+    
+      // Check conditions every 10 seconds
+      const interval = setInterval(checkConditions, 10000);
+    
+      // Cleanup the interval on component unmount
+      return () => clearInterval(interval);
     }, [isSuccessModalVisible]);
+    
       
 
   return (
@@ -214,13 +246,14 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
               <button className="authorize-btn" 
               onClick= {(e) => {
                 e.preventDefault();
-                handleTwitterLogin();
+                handleTwitterAuth();
               }}>
                 Authorize
               </button>
               <button className="cancel-btn" onClick={closePopup}>
                 Cancel
               </button>
+              
             </div>
           </div>
         </div>
@@ -286,6 +319,20 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
               <button className="cancel-btn" onClick={closeSuccessModal} style={{ color: 'white', border: '1px solid rgba(26, 117, 255, 1)', backgroundColor: 'rgba(26, 117, 255, 1)' }}>
                 Save
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+       {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <button className="close-btn" onClick={() => setShowModal(false)}>
+              &times;
+            </button>
+            <div className="modal-body">
+              <h3>Your free 4 hours trial has run out!</h3>
+              <p>Deposit Sol to continue using the AI agent you made!</p>
+              <button className="add-money-btn">Add Money</button>
             </div>
           </div>
         </div>
