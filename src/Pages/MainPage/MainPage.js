@@ -22,7 +22,7 @@ const MainPage = () => {
       <div className='content'>
       <h3>No Code AI Agent</h3>
       <p className='meme'>The Perfect Meme Fair Launch Platform on Solana.
-        Pump Pumpkin. Earn money  and make yourself a professional Coin Trader. Pump Pumpkin is for the people.
+        Pump Pumpkin. Earn money  and make yourself a professional Coin Trader. <br></br>Pump Pumpkin is for the people.
         </p>
       </div>
       

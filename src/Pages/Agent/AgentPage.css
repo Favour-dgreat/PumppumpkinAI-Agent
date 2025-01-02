@@ -333,7 +333,62 @@ textarea{
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
   color: #fff;
 }
+.dropdown{
+  background-color: rgba(23, 37, 58, 1);
+  border-radius: 10px;
+  border: 1px solid rgba(26, 117, 255, 1);
+  
+}
+table{
+  border: 1px solid rgba(26, 117, 255, 1);
+}
+th{
+  border: 1px solid rgba(26, 117, 255, 1);
+  padding:25px;
 
+}
+
+td{
+  border: 1px solid rgba(26, 117, 255, 1);
+  padding: 25px;
+  font-weight: bold;
+}
+
+td span{
+  color: rgba(5, 255, 80, 1);
+  font-weight: 'bold';
+  font-size: 20px;
+}
+
+.model-button{
+  display: flex; 
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 20px; 
+  padding: 20px;
+}
+
+.model-button button{
+  background-color: rgba(80, 5, 255, 1); 
+  color: #fff; 
+  width: 100%; 
+  border: none; 
+  border-radius: 5px; 
+  font-weight: bold; 
+  padding: 10px; 
+  cursor: pointer;
+}
+
+.model-button .b2{
+  background-color: rgba(255, 26, 26, 1);
+  color: #fff; 
+  width: 100%; 
+  border: none; 
+  border-radius: 5px; 
+  font-weight: bold; 
+  padding: 10px; 
+  cursor: pointer;
+}
 .popup-header {
   display: flex;
   justify-content: space-between;
@@ -544,6 +599,14 @@ p {
 }
 
 @media (max-width: 768px) {
+
+  .model-button{
+    display: block;
+  }
+
+  .model-button button{
+    margin-bottom: 10px;
+  }
   .hamburger-menu {
     display: flex;
   }

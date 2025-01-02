@@ -10,6 +10,9 @@
     margin: 0 auto;
     padding: 0 25px;
   }
+  .main-page{
+    padding-bottom: 20%;
+  }
 
 }
 .app-container {
