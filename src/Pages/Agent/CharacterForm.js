@@ -36,7 +36,7 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
   };
   
  
-
+  
 
   const handleTwitterLogin = async () => {
     const provider = new TwitterAuthProvider(); // Declare provider once
@@ -84,12 +84,15 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
     }
   };
   
+  
+    
 
 
   // Handle form submission
   const handleSubmit = async (e) => {
+    
+    setShowDropdown((prev) => !prev); // Toggle dropdown visibility
     e.preventDefault();
-  
     try {
       const characterID = userUUID || `character-${Date.now()}`;
   
@@ -111,7 +114,6 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
       a.href = url;
       a.download = `${formData.name || "character"}.json`;
       a.click();
-  
       console.log("Character saved and downloaded:", characterData);
     } catch (error) {
       console.error("Error saving character:", error);
@@ -123,7 +125,8 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
     const [error, setError] = useState(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  
+    const [showDropdown, setShowDropdown] = useState(false);
+
     const [isDepositModalVisible, setisDepositModalVisible] = useState(false);
     const [photoURL, setPhotoURL] = useState(null);
     const [transactionStatus, setTransactionStatus] = useState('');
@@ -283,6 +286,35 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
           </div>
         </div>
       )}
+      {showDropdown && (
+        <div className="dropdown" style={{ marginTop: '20px', backgroundColor: '#1E1E1E', padding: '15px', borderRadius: '10px' }}>
+          <h4>Manage Your AI Agent</h4>
+          <table style={{ width: '100%', borderCollapse: 'collapse', color: '#fff' }}>
+            <thead>
+              <tr>
+                <th style={{ textAlign: 'left', borderBottom: '1px solid #444' }}>AI Agent Name</th>
+                <th style={{ textAlign: 'left', borderBottom: '1px solid #444' }}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>NOOB AI</td>
+                <td>
+                  <span style={{ color: 'green', fontWeight: 'bold' }}>● Live</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+            <button style={{ backgroundColor: '#6C63FF', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px' }}>
+              Stop
+            </button>
+            <button style={{ backgroundColor: '#FF4C4C', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px' }}>
+              Delete
+            </button>
+          </div>
+        </div>
+      )}
         <div className="form-container">
           <div className="form-column">
             <FormInput
@@ -422,6 +454,7 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
                 Deploy
               </button>
               </div>
+              
               </section>
             </div>
     </>
