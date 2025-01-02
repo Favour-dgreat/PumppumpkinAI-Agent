@@ -23,6 +23,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.9.0",
     "uuid": "^11.0.3",
+    "vercel": "^39.2.2",
     "web-vitals": "^4.2.4"
   },
   "scripts": {
