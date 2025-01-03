@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import logo from '../../Assets/Images/logo.png'; 
+import loading from '../../Assets/Images/rolling.gif';
 
 const fetchData = async (oauthToken, oauthVerifier) => {
     const response = await fetch(`https://pumpkinai.icademics.com/auth/callback?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`, {
