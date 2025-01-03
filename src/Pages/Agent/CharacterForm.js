@@ -267,20 +267,21 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
               </button>
             </div>
             <div className="popup-content">
-              <img src={tg} alt="Logo" style={{ width: '100%' }} />
+              <img src={tg} alt="Logo" style={{ width: '100%', }} />
               <p className='ii'> AI Agent requests Telegram API Token </p>
-              <div className="input-container">
-                <input
+              <div className="input-container" style={{border: '1px solid rgba(26, 117, 255, 1)', padding: '0.2rem'}}>
+                <input 
                   type="text"
                   placeholder="Paste the Telegram API token"
                   value={telegramToken}
+                  onChange={handleTokenChange}
                   onClick= {(e) => {
                     e.preventDefault();
-                    handleTokenChange();
+                    
                   }}
-                  style={{ width: '95%', padding: '0.5rem', backgroundColor: 'rgba(27, 42, 66, 1)', color: 'white', border: '1px solid rgba(26, 117, 255, 1)' }}
+                  style={{ width: '85%', padding: '0.5rem', backgroundColor: 'rgba(27, 42, 66, 1)', color: 'white', border: 'none' }}
                 />
-                <i class="bi bi-send"></i>
+                <i class="bi bi-send" style={{color: 'rgba(26, 117, 255, 1)', fontSize: '20px'}}></i>
               </div>
               <small style={{ color: 'white', fontSize: '12px' }}>Watch this <a href="https://youtu.be/LlIDhLl4Z8w?si=YWJ48AhFwlQXdO74&t=23" target='_blank' rel="noreferrer" style={{ color: 'white' }}>video</a> to know how to get your API token</small>
             </div>

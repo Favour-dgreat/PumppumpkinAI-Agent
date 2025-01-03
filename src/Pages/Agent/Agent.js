@@ -385,6 +385,7 @@ const connectWallet = async () => {
   };
 
   const handleTokenChange = (e) => {
+    console.log(e);
     setTelegramToken(e.target.value);
   };
 
@@ -477,7 +478,6 @@ return (
                 style={{ width: '95%', padding: '0.5rem', backgroundColor:'rgba(27, 42, 66, 1)', color: 'white', border: '1px solid rgba(26, 117, 255, 1)' }}
              
              />
-             <i class="bi bi-send"></i>
              </div>
               <small style={{ color: 'white', fontSize: '12px' }}>Watch this <a href="https://youtu.be/LlIDhLl4Z8w?si=YWJ48AhFwlQXdO74&t=23" target='_blank' rel="noreferrer" style={{color:'white'}}>video</a> to know how to get your API token</small>
             </div>
@@ -546,8 +546,8 @@ return (
                     value={amount}
                     onChange={handleAmountChange} 
                   />
-                  <div className="input-icon">
-                    <img src={sol} alt="SOL Icon" />
+                  <div className="input-icons">
+                   <img src={sol} alt="SOL Icon" />
                   </div>
                 </div>
               </div>
@@ -567,18 +567,21 @@ return (
               <div className="wallet-container">
               {walletAddress ? (
                 <div className="wallet-dropdown">
-                  <i class="bi bi-person-circle" style={{fontSize: '18px'}}></i>
 
-                <button className="wallet-button" onClick={handleDropdownToggle} style={{fontSize:'14px'}} >
-                  {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-
+                  <button className="wallet-button" onClick={handleDropdownToggle} style={{fontSize:'14px'}} >
                   <i
-                  className={`bi bi-person-circle-${dropdownVisible ? 'up' : 'down'}`}
-                  style={{ marginLeft: '8px', color:'white' }}
-                  >
-                  </i>
-                  <i class="bi bi-chevron-down"></i>
-                </button>
+                    className={`bi bi-person-circle`}
+                    style={{backgroundColor: 'white', padding:'5px', marginRight: '10px', width: '100%', borderRadius: '50%', fontSize: '20px'}}
+                    >
+                    </i>
+                    {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                   
+                    
+
+                  <div className='down' style={{padding:'2%', borderLeft: '1px solid black', marginLeft: '10px', marginRight: '10px'}}>
+                    <i class="bi bi-chevron-down"></i>
+                    </div>
+                  </button>
                 {dropdownVisible && (
                   <div className="wallet-dropdown-menu">
                   <button onClick={disconnectWallet} className="dropdown-item">
@@ -604,10 +607,13 @@ return (
               {walletAddress ? (
               <div className="wallet-dropdown">
                 <button className="wallet-button" onClick={handleDropdownToggle}>
+
+                <i class="bi bi-person-circle" style={{backgroundColor: 'white', padding:'5px', marginRight: '10px', borderRadius: '50%', fontSize: '30px'}}></i>                
                 {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+
                 <i
                   className={`bi bi-chevron-${dropdownVisible ? 'up' : 'down'}`}
-                  style={{ marginLeft: '8px' }}
+                  style={{ marginLeft: '8px', backgroundColor:'black' }}
                 ></i>
                 </button>
                 {dropdownVisible && (

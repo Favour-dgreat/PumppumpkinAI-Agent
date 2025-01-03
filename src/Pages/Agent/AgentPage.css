@@ -43,9 +43,9 @@
 }
 
 .action-btn {
-  background-color:rgba(230, 230, 230, 1);
+  background-color:rgba(26, 117, 255, 1);
   font-weight: 900;
-  color: black;
+  color: white;
   font-size: 18px;
   line-height: 20px;
 }
@@ -65,8 +65,7 @@
 
 
 .action-btn.connect {
-  background-color: rgba(26, 117, 255, 1);
-  color: #fff;
+  color: black;
 }
 .heading {
   display: flex;
@@ -267,7 +266,7 @@ textarea{
 .input-container {
   position: relative; /* Ensure child elements can use absolute positioning */
   width: 100%; /* Adjust as per your layout */
-  max-width: 400px; /* Optional: Set a maximum width */
+  max-width: 800px; /* Optional: Set a maximum width */
   margin: 1rem 0;
   background-color: transparent;
 }
@@ -276,17 +275,16 @@ textarea{
   width: 100%; /* Make the input take full width of the container */
   padding: 0.5rem 2.5rem 0.5rem 0.5rem; /* Add space on the right for the icon */
   color: white;
-  border: 1px solid rgba(26, 117, 255, 1);
-  border-radius: 4px; /* Optional: Rounded corners */
   font-size: 1rem; /* Adjust font size */
 }
 
-.input-container i {
+.input-container .input-icons {
+  display: flex;
   position: absolute; /* Position relative to the container */
   right: 10px; /* Position the icon inside the input field on the right */
   top: 50%; /* Vertically center the icon */
   transform: translateY(-50%); /* Correct vertical alignment */
-  color: rgba(26, 117, 255, 1); /* Icon color */
+  color: white; /* Icon color */
   cursor: pointer; /* Make the icon clickable */
 }
 
@@ -445,16 +443,19 @@ p {
   margin-bottom: 20px;
   background-color: transparent;
 }
-
+.input-wrapper{
+  width: 100%;
+  border: 1px solid white;
+  border-radius: 8px;
+}
 .input-container input {
   width: calc(100% - 50px);
   padding: 10px 12px;
   font-size: 16px;
-  border: 1px solid #3d3d56;
-  border-radius: 8px;
-  background-color: #1c2230;
+  background-color: transparent;
   color: #ffffff;
   outline: none;
+  border: none;
 }
 
 .input-container .input-addon {
@@ -475,8 +476,8 @@ p {
 }
 
 .input-container img {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 }
 
 /* Button Styles */
@@ -622,24 +623,73 @@ p {
   display: none;
 }
 
-.wallet-dropdown, 
-.wallet-button{
-  background-color: #007bff;
-  color: white;
+.wallet-container {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background:rgba(230, 230, 230, 1);
+
+}
+
+.wallet-dropdown {
+  position: relative;
+  display: flex;
+}
+
+.wallet-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+ 
+  color: #000;
   border: none;
-  padding: 10px 10px;
-  border-radius: 5px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: transparent;
   cursor: pointer;
 }
-.wallet-dropdown-menu,
-.dropdown-item{
-  margin-top: 10px;
-  background-color: #007bff;
-  color: white;
+
+.wallet-button:hover {
+}
+
+.wallet-button i {
+  margin-left: 8px;
+  font-size: 12px;
+  color: #000;
+}
+
+.wallet-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left:40px;
+  margin-top: 8px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
   border: none;
-  border-radius: 5px;
+  text-align: left;
+  color: #000;
+  font-size: 14px;
   cursor: pointer;
 }
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
 
 @media (max-width: 768px) {
 
