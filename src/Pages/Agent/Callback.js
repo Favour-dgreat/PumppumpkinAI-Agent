@@ -4,7 +4,8 @@ import logo from '../../Assets/Images/logo.png';
 import loading from '../../Assets/Images/rolling.gif';
 
 const fetchData = async (oauthToken, oauthVerifier) => {
-    const response = await fetch(`https://pumpkinai.icademics.com/auth/callback?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`, {
+    const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:3000'; // Default to localhost if not set
+    const response = await fetch(`${backendApiUrl}/auth/callback?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
