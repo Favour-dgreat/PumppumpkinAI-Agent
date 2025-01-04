@@ -76,29 +76,31 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
     localStorage.setItem("deployTimestamp", deployTimestamp);
 
     try {
-      const characterID = userUUID || `character-${Date.now()}`;
   
-      const characterData = {
-        ...formData,
-        createdAt: new Date(),
-      };
-  
+      
       // Save to Firestore with the generated UUID as characterID
-      const characterDoc = doc(db, "characters", characterID);
-      await setDoc(characterDoc, characterData);
-  
-      // Save JSON locally
-      const fileData = JSON.stringify(characterData, null, 2);
-      const blob = new Blob([fileData], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-  
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${formData.name || "character"}.json`;
-      a.click();
-      console.log("Character saved and downloaded:", characterData);
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+      throw new Error("Access token not found");
+      }
+
+      const response = await fetch('https://pumpkinai.icademics.com/agent/deploy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+      throw new Error('Failed to deploy character');
+      }
+
+      const result = await response.json();
+      console.log("Character deployed successfully:", result);
     } 
-    
+     
     catch (error) {
       console.error("Error saving character:", error);
     }
@@ -183,7 +185,6 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
       }
       const auth = getAuth();
       if (!auth.currentUser) {
-        console.error("User is not authenticated!");
         return;
       }
       console.log("Authenticated user ID:", auth.currentUser.uid);

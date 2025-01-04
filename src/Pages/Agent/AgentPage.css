@@ -50,6 +50,15 @@
   line-height: 20px;
 }
 
+.action-btnconnect {
+  font-weight: 900;
+  color: black;
+  font-size: 18px;
+  background: transparent;
+  border: none;
+}
+
+
 .actionss {
   display: flex;
   gap: 10px;
@@ -711,6 +720,9 @@ p {
 
   .logo {
     display: inline-block;
+  }
+  .action-btnconnect{
+    padding: 10px;
   }
 }
 

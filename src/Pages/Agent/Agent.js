@@ -7,7 +7,7 @@ import logo from '../../Assets/Images/logo.png';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Select from 'react-select';
 import sol from '../../Assets/Images/Ellipse 6.png';
-import wallet from '../../Assets/Images/Vector.png';
+import wallet from '../../Assets/Images/Vectors.png';
 import { useNavigate } from 'react-router-dom';
 import { getFirestore, doc, setDoc, updateDoc, getDoc, increment } from "firebase/firestore"; 
 import tg from '../../Assets/Images/Rectangle.png';
@@ -591,7 +591,7 @@ return (
                 )}
                 </div>
               ) : (
-                <button className="action-btn connect" onClick={connectWallet}>
+                <button className="action-btnconnect" onClick={connectWallet}>
                 Connect Wallet
                 </button>
               )}
@@ -605,31 +605,36 @@ return (
               </button>
               <div className="wallet-container">
               {walletAddress ? (
-              <div className="wallet-dropdown">
-                <button className="wallet-button" onClick={handleDropdownToggle}>
+                <div className="wallet-dropdown">
 
-                <i class="bi bi-person-circle" style={{backgroundColor: 'white', padding:'5px', marginRight: '10px', borderRadius: '50%', fontSize: '30px'}}></i>                
-                {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                  <button className="wallet-button" onClick={handleDropdownToggle} style={{fontSize:'14px'}} >
+                  <i
+                    className={`bi bi-person-circle`}
+                    style={{backgroundColor: 'white', padding:'5px', marginRight: '10px', width: '100%', borderRadius: '50%', fontSize: '20px'}}
+                    >
+                    </i>
+                    {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                   
+                    
 
-                <i
-                  className={`bi bi-chevron-${dropdownVisible ? 'up' : 'down'}`}
-                  style={{ marginLeft: '8px', backgroundColor:'black' }}
-                ></i>
-                </button>
-                {dropdownVisible && (
-                <div className="wallet-dropdown-menu">
-                  <button onClick={disconnectWallet} className="dropdown-item">
-                  Disconnect Wallet
+                  <div className='down' style={{padding:'2%', borderLeft: '1px solid black', marginLeft: '80px', marginRight: '10px'}}>
+                    <i class="bi bi-chevron-down"></i>
+                    </div>
                   </button>
-                </div>
+                {dropdownVisible && (
+                  <div className="wallet-dropdown-menu">
+                  <button onClick={disconnectWallet} className="dropdown-item">
+                    Disconnect Wallet
+                  </button>
+                  </div>
                 )}
-              </div>
+                </div>
               ) : (
-              <button className="action-btn connect" onClick={connectWallet}>
+                <button className="action-btnconnect" onClick={connectWallet}>
                 Connect Wallet
-              </button>
+                </button>
               )}
-            </div>
+              </div>
             </div>
             <form onSubmit={handleSubmit}>
             <CharacterForm formData={formData} onFormChange={setFormData} />
