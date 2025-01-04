@@ -43,21 +43,32 @@ const AdminDashboard = () => {
     console.log('Wallet disconnected');
   };
 
-  // Fetch user data from Firestore
+  // Fetch user data from Backend
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "users"));
-        const users = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          walletAddress: doc.data().walletAddress,
-          userWalletBalance: doc.data().userWalletBalance,
-          amountUserhasPaid: doc.data().amountUserhasPaid, // Adding the 'amountUserhasPaid' field
-          createdAt: doc.data().createdAt ? doc.data().createdAt.toDate() : null, // Convert to Date object if exists
+        const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL;
+        const response = await fetch(`${backendApiUrl}/users`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+
+        const allUsers = await response.json().data;
+
+        const users = allUsers.map(user => ({
+          id: user.id,
+          walletAddress: user.wallet_address,
+          userWalletBalance: user.solana_wallet_balance,
+          amountUserhasPaid: user.wallet_balance,
+          createdAt: user.created_at ? user.created_at.toDate() : null,
         }));
+
         setUserData(users);
         // Count the number of users with a wallet address (non-empty)
-        const connectedUsers = users.filter(user => user.walletAddress).length;
+        const connectedUsers = users.filter(user => user.wallet_address).length;
         setUserCount(connectedUsers);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -186,20 +197,20 @@ const AdminDashboard = () => {
                 {userData.map((user, index) => (
                   <tr key={user.id}>
                     <td style={{ padding: '8px' }}>{index + 1}</td>
-                    <td style={{ padding: '8px' }}>{user.walletAddress}</td>
+                    <td style={{ padding: '8px' }}>{user.wallet_address}</td>
                     <td style={{ padding: '8px' }}>
                       {isAcInfoClicked
-                        ? user.amountUserhasPaid
-                          ? user.amountUserhasPaid.toFixed(3)
+                        ? user.wallet_balance
+                          ? user.wallet_balance.toFixed(3)
                           : 'N/A'
-                        : user.userWalletBalance
-                        ? user.userWalletBalance.toFixed(3)
+                        : user.solana_wallet_balance
+                        ? user.solana_wallet_balance.toFixed(3)
                         : 'N/A'}
                       SOL
                     </td>
                     <td style={{ padding: '8px' }}>
-                      {user.createdAt
-                        ? user.createdAt.toLocaleString("en-US", {
+                      {user.created_at
+                        ? user.created_at.toLocaleString("en-US", {
                             year: "numeric",
                             month: "2-digit",
                             day: "2-digit",

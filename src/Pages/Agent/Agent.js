@@ -205,15 +205,38 @@ const sendSol = async () => {
         // Fetch the current balance of the user's Phantom wallet
         const userWalletBalanceLamports = await connection.getBalance(publicKey);
         const userWalletBalanceSOL = userWalletBalanceLamports / 1e9; // Convert to SOL
-        const userRef = doc(db, "users", user.uid);
 
-        // Update Firestore
-        await updateDoc(userRef, {
-          amountUserhasPaid: increment(solAmount), // Increment sent amount
-          userWalletBalance: userWalletBalanceSOL,  // Decrease user balance
+        // Update Backend
+        const accessToken = localStorage.getItem("access_token");
+        if (!accessToken) {
+          alert("Please sign in by clicking on the X Account Client Button");
+          return;
+        }
+
+        const userData = JSON.parse(localStorage.getItem("user"));
+        if (!user) {
+          alert("Please sign in by clicking on the X Account Client Button");
+          return;
+        }
+
+        const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL;
+        const response = await fetch(`${backendApiUrl}/users/${userData.id}/wallet/transactions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(
+            {
+              amountUserhasPaid: amount,
+              userSOLWalletBallance: userWalletBalanceSOL
+            }
+          ),
         });
-
-        console.log("Database updated with sent amount and user balance.");
+  
+        if (!response.ok) {
+        throw new Error('Failed to update user balance');
+        }
       } else {
         console.error("User is not authenticated.");
       }
@@ -285,32 +308,32 @@ const connectWallet = async () => {
     }
     setWalletAddress(walletAddress); // Update walletAddress state
 
-
-    // Ensure user is authenticated
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Please sign in by clicking on the X Account Client Button ");
+    const accessToken = localStorage.getItem("access_token");
+    if (!accessToken) {
+      alert("Please sign in by clicking on the X Account Client Button");
       return;
     }
 
-    // Reference the user's document in Firestore
-    const userDocRef = doc(db, "users", user.uid);
+    const userData = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      alert("Please sign in by clicking on the X Account Client Button");
+      return;
+    }
 
-    // Check if the document exists
-    const userDocSnap = await getDoc(userDocRef);
-    if (userDocSnap.exists()) {
-      // Document exists; update it
-      await updateDoc(userDocRef, { walletAddress });
-      console.log("Wallet address updated in Firestore:", walletAddress);
-    } else {
-      // Document does not exist; create it with the wallet address
-      await setDoc(userDocRef, {
-        walletAddress,
-        createdAt: new Date(),
-       
-        name: user.displayName || "Unknown",
-      });
-      console.log("User document created with wallet address:", walletAddress);
+    const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL
+    const response = await fetch(`${backendApiUrl}/users/${userData.id}/wallet/address`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        wallet_address: walletAddress
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update user Wallet Address');
     }
   } catch (error) {
     console.error("Wallet connection failed:", error);

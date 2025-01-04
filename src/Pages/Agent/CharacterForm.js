@@ -39,12 +39,12 @@ const CharacterForm = ({ formData, onFormChange}) => {
     try {
       const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL;
       const response = await fetch(`${backendApiUrl}/auth/login`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      },
-    );
+      );
   
       if (!response.ok) {
         throw new Error('Failed to initialise Twitter Login');
@@ -60,7 +60,6 @@ const CharacterForm = ({ formData, onFormChange}) => {
     }
   };
   
-
   // Handle form submission
   const handleSubmit = async (e) => {
     
@@ -76,7 +75,7 @@ const CharacterForm = ({ formData, onFormChange}) => {
     try {
       const accessToken = localStorage.getItem("access_token");
       if (!accessToken) {
-      throw new Error("Access token not found");
+        alert("Please sign in by clicking on the X Account Client Button");
       }
 
       const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL;
