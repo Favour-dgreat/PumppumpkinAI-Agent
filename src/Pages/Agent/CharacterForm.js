@@ -7,7 +7,7 @@ import logo from "../../Assets/Images/logo.png"; // Adjust the path to your logo
 import tg from '../../Assets/Images/Rectangle.png';
 
 import { v4 as uuidv4 } from 'uuid';
-const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
+const CharacterForm = ({ formData, onFormChange}) => {
   const handleChanges = (e) => {
     const { name, value } = e.target;
   
@@ -40,7 +40,8 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
 
   const handleTwitterAuth = async () => {
     try {
-      const response = await fetch('https://pumpkinai.icademics.com/auth/login', {
+      const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL;
+      const response = await fetch(`${backendApiUrl}/auth/login`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -76,33 +77,31 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
     localStorage.setItem("deployTimestamp", deployTimestamp);
 
     try {
-      const characterID = userUUID || `character-${Date.now()}`;
-  
-      const characterData = {
-        ...formData,
-        createdAt: new Date(),
-      };
-  
-      // Save to Firestore with the generated UUID as characterID
-      const characterDoc = doc(db, "characters", characterID);
-      await setDoc(characterDoc, characterData);
-  
-      // Save JSON locally
-      const fileData = JSON.stringify(characterData, null, 2);
-      const blob = new Blob([fileData], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-  
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${formData.name || "character"}.json`;
-      a.click();
-      console.log("Character saved and downloaded:", characterData);
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+      throw new Error("Access token not found");
+      }
+
+      const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL;
+      const response = await fetch(`${backendApiUrl}/agents/deploy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+      throw new Error('Failed to deploy character');
+      }
+
+      const result = await response.json();
+      console.log("Character deployed successfully:", result);
     } 
-    
     catch (error) {
       console.error("Error saving character:", error);
     }
-    
   };
   
     const [userUUID, setUserUUID] = useState(null);
@@ -417,21 +416,21 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
             name="all"
             placeholder="Describe how the character communicates in general. Include speech patterns, mannerisms. and typical expressions
         write one complete sentence per line."
-            value={(formData.style?.all || []).join("\n")} // Ensure safe access        
+            value={formData.general_style} // Ensure safe access        
             onChange={handleChanges}
         />
           <FormTextarea
             label="Chat Style"
             name="chat"
             placeholder="Describe how the character behaves in conversations. Include response patterns and chat specific mannerisms  write one complete sentence per line."
-            value={(formData.style?.chat || []).join("\n")} // Ensure safe access
+            value={formData.chat_style} // Ensure safe access
             onChange={handleChanges}
           />
           <FormTextarea
             label="Post"
             name="post"
             placeholder="Describe how the character writes post or longer content. Include formatting preferences and writing style write one complete sentence per line."
-            value={(formData.style?.post || []).join("\n")} // Ensure safe access
+            value={formData.post_style} // Ensure safe access
             onChange={handleChanges}
           />
         </DetailsGrid>
@@ -460,7 +459,7 @@ const CharacterForm = ({ formData, onFormChange, onSubmit}) => {
             label="Give Post Examples"
             name="twitterTargets"
             placeholder="List Post examples in a simple sentence, one per line. Seperated by commas."
-            value={formData.twitterTargets}
+            value={formData.post_examples}
             onChange={handleChanges}
           />
         </DetailsGrid>
