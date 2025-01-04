@@ -17,15 +17,10 @@ const CharacterCreation = ({ userUUID }) => {
     bio: [""],
     lore: [""],
     topics: [""],
-   
-    style: {
-      all: [""],
-      chat: [""],
-      post: [""],
-    },
+    general_style: [""],
+    post_style: [""],
+    chat_style: [""],
     adjectives: [""],
-    twitterTargets: "",
-     
     
   });
 

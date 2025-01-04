@@ -25,10 +25,7 @@ const CharacterForm = ({ formData, onFormChange}) => {
       // For 'style' fields that need to be split into arrays
       onFormChange((prev) => ({
         ...prev,
-        style: {
-          ...prev.style,
-          [name]: value.split("\n"), // Split input by line breaks into an array
-        },
+       
       }));
     } else {
       // For all other fields
