@@ -39,7 +39,7 @@ const TwitterCallback = () => {
 
         if (response.data?.data) {
           // Store user data and token
-          localStorage.setItem('accessToken', response.data.data.access_token);
+          localStorage.setItem('access_token', response.data.data.access_token);
           localStorage.setItem('user', JSON.stringify(response.data.data.user));
 
           setStatus('success');
@@ -72,7 +72,6 @@ const TwitterCallback = () => {
           <div className="text-center">
             {status === 'processing' && (
               <>
-                <img src={loading} alt="Loading" className="h-12 w-12 mx-auto mb-4" />
                 <h2 className="text-xl font-semibold text-white mb-2">
                   Authenticating...
                 </h2>
@@ -84,21 +83,8 @@ const TwitterCallback = () => {
 
             {status === 'success' && (
               <>
-                <div className="bg-green-500 rounded-full p-2 w-12 h-12 mx-auto mb-4">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
+               <img src={loading} alt="Loading" className="h-12 w-12 mx-auto mb-4" />
+
                 <h2 className="text-xl font-semibold text-white mb-2">
                   Authentication Successful!
                 </h2>
