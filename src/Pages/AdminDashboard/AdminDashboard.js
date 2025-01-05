@@ -56,14 +56,14 @@ const AdminDashboard = () => {
           },
         );
 
-        const allUsers = await response.json().data;
-
+        const result = await response.json();
+        const allUsers = result.data;
         const users = allUsers.map(user => ({
           id: user.id,
-          walletAddress: user.wallet_address,
-          userWalletBalance: user.solana_wallet_balance,
-          amountUserhasPaid: user.wallet_balance,
-          createdAt: user.created_at ? user.created_at.toDate() : null,
+          wallet_address: user.wallet_address,
+          solana_wallet_balance: user.solana_wallet_balance,
+          wallet_balance: user.wallet_balance,
+          created_at: user.created_at ? new Date(user.created_at) : null,
         }));
 
         setUserData(users);

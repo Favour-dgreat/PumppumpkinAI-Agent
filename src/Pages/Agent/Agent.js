@@ -199,47 +199,45 @@ const sendSol = async () => {
     } else {
       setTransactionStatus("Transaction successful! Check your wallet.");
       const solAmount = parseFloat(amount); // Convert to SOL
-      const user = auth.currentUser;
+      
+      // Fetch the current balance of the user's Phantom wallet
+      const userWalletBalanceLamports = await connection.getBalance(publicKey);
+      const userWalletBalanceSOL = userWalletBalanceLamports / 1e9; // Convert to SOL
 
-      if (user) {
-        // Fetch the current balance of the user's Phantom wallet
-        const userWalletBalanceLamports = await connection.getBalance(publicKey);
-        const userWalletBalanceSOL = userWalletBalanceLamports / 1e9; // Convert to SOL
-
-        // Update Backend
-        const accessToken = localStorage.getItem("access_token");
-        if (!accessToken) {
-          alert("Please sign in by clicking on the X Account Client Button");
-          return;
-        }
-
-        const userData = JSON.parse(localStorage.getItem("user"));
-        if (!user) {
-          alert("Please sign in by clicking on the X Account Client Button");
-          return;
-        }
-
-        const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL;
-        const response = await fetch(`${backendApiUrl}/users/${userData.id}/wallet/transactions`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(
-            {
-              amountUserhasPaid: amount,
-              userSOLWalletBallance: userWalletBalanceSOL
-            }
-          ),
-        });
-  
-        if (!response.ok) {
-        throw new Error('Failed to update user balance');
-        }
-      } else {
-        console.error("User is not authenticated.");
+      // Update Backend
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+        alert("Please sign in by clicking on the X Account Client Button");
+        return;
       }
+
+      const userData = JSON.parse(localStorage.getItem("user"));
+
+      if (!userData) {
+        alert("Please sign in by clicking on the X Account Client Button");
+        return;
+      }
+
+      const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL;
+      const response = await fetch(`${backendApiUrl}/users/${userData.id}/wallet/transactions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(
+          {
+            
+            amountUserhasPaid: amount,
+            userSOLWalletBalance: userWalletBalanceSOL
+          }
+        ),
+      });
+
+      if (!response.ok) {
+      throw new Error('Failed to update user balance');
+      }
+      
 
       pendingTransactions.add(signature); // Add to pending transactions for monitoring
       setDepositedAmount((prevAmount) => {
@@ -315,7 +313,7 @@ const connectWallet = async () => {
     }
 
     const userData = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
+    if (!userData) {
       alert("Please sign in by clicking on the X Account Client Button");
       return;
     }
