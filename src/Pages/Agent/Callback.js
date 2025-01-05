@@ -1,128 +1,147 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 import logo from '../../Assets/Images/logo.png';
 import loading from '../../Assets/Images/rolling.gif';
 
-const fetchData = async (oauthToken, oauthVerifier, signal) => {
-  const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL;
-  const response = await fetch(
-    `${backendApiUrl}/auth/callback?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      signal,
-    }
-  );
-  
-  if (!response.ok) {
-    throw new Error('Failed to initialise Twitter Login');
-  }
-  
-  const result = await response.json();
-  return result.data;
-};
+const BACKEND_URL = process.env.REACT_APP_BACKEND_API_URL;
 
-const Loading = () => {
-  const location = useLocation();
-  const [isLoading, setIsLoading] = useState(false);
+const TwitterCallback = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [status, setStatus] = useState('processing');
   const [error, setError] = useState(null);
-  const [hasAttemptedAuth, setHasAttemptedAuth] = useState(false);
-
-  // Memoize the URL parameters
-  const authParams = useMemo(() => {
-    const params = new URLSearchParams(location.search);
-    return {
-      oauthToken: params.get('oauth_token'),
-      oauthVerifier: params.get('oauth_verifier'),
-    };
-  }, [location.search]);
-
-  // Memoize the validation check
-  const isValidAuth = useMemo(() => {
-    return Boolean(authParams.oauthToken && authParams.oauthVerifier);
-  }, [authParams]);
-
-  // Memoize the authentication function
-  const authenticate = useCallback(async (controller) => {
-    if (!isValidAuth || isLoading || hasAttemptedAuth) {
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      setHasAttemptedAuth(true);
-      
-      const data = await fetchData(
-        authParams.oauthToken, 
-        authParams.oauthVerifier,
-        controller.signal
-      );
-      
-      const { access_token, user } = data;
-      localStorage.setItem('access_token', access_token);
-      localStorage.setItem('user', JSON.stringify(user));
-      window.location.href = '/agent';
-    } catch (err) {
-      if (err.name === 'AbortError') {
-        return;
-      }
-      setError(err.message);
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [isValidAuth, isLoading, authParams, hasAttemptedAuth]);
 
   useEffect(() => {
-    const controller = new AbortController();
-    
-    authenticate(controller);
+    const handleCallback = async () => {
+      const oauthToken = searchParams.get('oauth_token');
+      const oauthVerifier = searchParams.get('oauth_verifier');
 
-    return () => {
-      controller.abort();
+      if (!oauthToken || !oauthVerifier) {
+        setStatus('error');
+        setError('Missing OAuth parameters');
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          `${BACKEND_URL}/auth/callback`,
+          {
+            params: {
+              oauth_token: oauthToken,
+              oauth_verifier: oauthVerifier,
+            },
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        if (response.data?.data) {
+          // Store user data and token
+          localStorage.setItem('accessToken', response.data.data.access_token);
+          localStorage.setItem('user', JSON.stringify(response.data.data.user));
+
+          setStatus('success');
+          // Redirect after successful authentication
+          setTimeout(() => navigate('/agent'), 1500);
+        } else {
+          throw new Error('Invalid response format');
+        }
+      } catch (error) {
+        console.error('Authentication error:', error);
+        setStatus('error');
+        setError(
+          error.response?.data?.data?.message ||
+          error.message ||
+          'An error occurred during authentication'
+        );
+      }
     };
-  }, [authenticate]);
 
-  // Memoize the error message
-  const errorMessage = useMemo(() => {
-    if (!error) return null;
-    return 'An error occurred during authentication. Please try again.';
-  }, [error]);
+    handleCallback();
+  }, [searchParams, navigate]);
 
   return (
-    <div className="main-page" style={{ background: 'rgba(21, 32, 49, 1)', opacity: '5' }}>
-      <div className="popup-overlay">
-        <div className="popup" onClick={(e) => e.stopPropagation()}>
-          <div className="popup-content">
-            <img src={logo} alt="Logo" style={{ width: '100%' }} />
-            <p className="ii">
-              {error ? 'Authentication failed' : 'Authenticating your account'}
-            </p>
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center">
+        <div className="bg-gray-800 rounded-lg shadow-lg max-w-md w-full p-6 relative">
+          <div className="flex justify-center mb-4">
+            <img src={logo} alt="Logo" className="h-16" />
           </div>
-          <div className="popup-actions">
-            {isLoading ? (
-              <div className="loading-container">
-                <img src={loading} alt="Loading" style={{ width: '40px' }} />
-              </div>
-            ) : (
-              <button
-                style={{ fontSize: '20px' }}
-                className="authorize-btn"
-                onClick={() => !hasAttemptedAuth && authenticate(new AbortController())}
-                disabled={isLoading || hasAttemptedAuth}
-              >
-                {error ? 'Retry Authentication' : 'Authenticating...'}
-              </button>
+          <div className="text-center">
+            {status === 'processing' && (
+              <>
+                <img src={loading} alt="Loading" className="h-12 w-12 mx-auto mb-4" />
+                <h2 className="text-xl font-semibold text-white mb-2">
+                  Authenticating...
+                </h2>
+                <p className="text-gray-400">
+                  Please wait while we complete your authentication
+                </p>
+              </>
+            )}
+
+            {status === 'success' && (
+              <>
+                <div className="bg-green-500 rounded-full p-2 w-12 h-12 mx-auto mb-4">
+                  <svg
+                    className="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <h2 className="text-xl font-semibold text-white mb-2">
+                  Authentication Successful!
+                </h2>
+                <p className="text-gray-400">
+                  Redirecting you to the dashboard...
+                </p>
+              </>
+            )}
+
+            {status === 'error' && (
+              <>
+                <div className="bg-red-500 rounded-full p-2 w-12 h-12 mx-auto mb-4">
+                  <svg
+                    className="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </div>
+                <h2 className="text-xl font-semibold text-white mb-2">
+                  Authentication Failed
+                </h2>
+                <p className="text-red-400 mb-4">{error}</p>
+                <button
+                  onClick={() => window.location.href = '/agent?twitterAuthError=true'}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+                >
+                  Return to Login
+                </button>
+              </>
             )}
           </div>
         </div>
       </div>
-      <h1>{error ? 'Error' : 'Loading...'}</h1>
-      <p>{errorMessage || 'Please wait while we authenticate with Twitter.'}</p>
     </div>
   );
 };
 
-export default Loading;
+export default TwitterCallback;
