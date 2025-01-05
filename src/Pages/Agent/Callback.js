@@ -15,11 +15,11 @@ const fetchData = async (oauthToken, oauthVerifier, signal) => {
       signal,
     }
   );
-
+  
   if (!response.ok) {
     throw new Error('Failed to initialise Twitter Login');
   }
-
+  
   const result = await response.json();
   return result.data;
 };
@@ -28,8 +28,9 @@ const Loading = () => {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [hasAttemptedAuth, setHasAttemptedAuth] = useState(false);
 
-  // Extract params directly
+  // Memoize the URL parameters
   const authParams = useMemo(() => {
     const params = new URLSearchParams(location.search);
     return {
@@ -38,50 +39,57 @@ const Loading = () => {
     };
   }, [location.search]);
 
-  const isValidAuth = useMemo(
-    () => Boolean(authParams.oauthToken && authParams.oauthVerifier),
-    [authParams.oauthToken, authParams.oauthVerifier]
-  );
+  // Memoize the validation check
+  const isValidAuth = useMemo(() => {
+    return Boolean(authParams.oauthToken && authParams.oauthVerifier);
+  }, [authParams]);
 
-  const authenticate = useCallback(
-    async (controller) => {
-      if (!isValidAuth || isLoading) {
+  // Memoize the authentication function
+  const authenticate = useCallback(async (controller) => {
+    if (!isValidAuth || isLoading || hasAttemptedAuth) {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      setHasAttemptedAuth(true);
+      
+      const data = await fetchData(
+        authParams.oauthToken, 
+        authParams.oauthVerifier,
+        controller.signal
+      );
+      
+      const { access_token, user } = data;
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('user', JSON.stringify(user));
+      window.location.href = '/agent';
+    } catch (err) {
+      if (err.name === 'AbortError') {
         return;
       }
-
-      try {
-        setIsLoading(true);
-        const data = await fetchData(
-          authParams.oauthToken,
-          authParams.oauthVerifier,
-          controller.signal
-        );
-
-        const { access_token, user } = data;
-        localStorage.setItem('access_token', access_token);
-        localStorage.setItem('user', JSON.stringify(user));
-        window.location.href = '/agent';
-      } catch (err) {
-        if (err.name === 'AbortError') {
-          return;
-        }
-        setError(err.message);
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [isValidAuth, isLoading, authParams.oauthToken, authParams.oauthVerifier]
-  );
+      setError(err.message);
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isValidAuth, isLoading, authParams, hasAttemptedAuth]);
 
   useEffect(() => {
     const controller = new AbortController();
+    
     authenticate(controller);
 
     return () => {
       controller.abort();
     };
   }, [authenticate]);
+
+  // Memoize the error message
+  const errorMessage = useMemo(() => {
+    if (!error) return null;
+    return 'An error occurred during authentication. Please try again.';
+  }, [error]);
 
   return (
     <div className="main-page" style={{ background: 'rgba(21, 32, 49, 1)', opacity: '5' }}>
@@ -94,18 +102,25 @@ const Loading = () => {
             </p>
           </div>
           <div className="popup-actions">
-            <button
-              style={{ fontSize: '20px' }}
-              className="authorize-btn"
-              disabled={isLoading}
-            >
-              {isLoading && <img src={loading} style={{ width: '20px' }} alt="Loading spinner" />}
-            </button>
+            {isLoading ? (
+              <div className="loading-container">
+                <img src={loading} alt="Loading" style={{ width: '40px' }} />
+              </div>
+            ) : (
+              <button
+                style={{ fontSize: '20px' }}
+                className="authorize-btn"
+                onClick={() => !hasAttemptedAuth && authenticate(new AbortController())}
+                disabled={isLoading || hasAttemptedAuth}
+              >
+                {error ? 'Retry Authentication' : 'Authenticating...'}
+              </button>
+            )}
           </div>
         </div>
       </div>
       <h1>{error ? 'Error' : 'Loading...'}</h1>
-      <p>{error ? 'An error occurred during authentication. Please try again.' : 'Please wait while we authenticate with Twitter.'}</p>
+      <p>{errorMessage || 'Please wait while we authenticate with Twitter.'}</p>
     </div>
   );
 };
